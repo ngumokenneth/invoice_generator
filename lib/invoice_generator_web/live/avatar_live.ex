@@ -8,63 +8,66 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
   def render(assigns) do
     ~H"""
     <div class="bg-red-400 h-screen">
-      <.header>
-        Welcome let's create your profile
-      </.header>
-      <p>Just a few more steps</p>
-      <%!-- <%= inspect(@uploads.avatar) %> --%>
+    <.header>
+      Welcome let's create your profile
+    </.header>
+    <p>Just a few more steps</p>
+    <%!-- <%= inspect(@uploads.avatar) %> --%>
 
-      <div>
-        <div class="grid grid-cols-2 bg-red-300 ">
-          <div class="flex justify-center">
-            <div phx-drop-target={@uploads.avatar.ref} class=" w-24 h-24 rounded-full border border-dashed flex justify-center">
-              <img src="../images/user_icon.svg" alt="user icon" class="w-10" />
-            </div>
-          </div>
-          <div class="bg-gray-200 flex items-center">
-            <form id="upload-form" phx-submit="save" phx-change="validate">
-              <.live_file_input upload={@uploads.avatar} />
-              <%!-- <button type="submit" class="bg-blue-400 rounded-full py-2 px-4">Upload</button> --%>
-            </form>
+    <div>
+      <div class="grid grid-cols-2 bg-red-300 ">
+        <div class="flex justify-center">
+          <div
+            phx-drop-target={@uploads.avatar.ref}
+            class=" w-24 h-24 rounded-full border border-dashed flex justify-center"
+          >
+            <img src="../images/user_icon.svg" alt="user icon" class="w-10" />
           </div>
         </div>
-        <div class="flex justify-end">
-          <.button class="bg-[#979797] rounded-full mt-4">
-            <%= live_patch("Continue", to: "/address") %>
-          </.button>
-        </div>
-        <div>
-          <%= for entry <- @uploads.avatar.entries do %>
-            <article class="upload-entry">
-              <figure>
-                <.live_img_preview entry={entry} />
-                <figcaption><%= entry.client_name %></figcaption>
-              </figure>
-
-              <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
-
-              <button
-                type="button"
-                phx-click="cancel-upload"
-                phx-value-ref={entry.ref}
-                aria-label="cancel"
-              >
-                &times;
-              </button>
-
-              <%= for err <- upload_errors(@uploads.avatar, entry) do %>
-                <p class="alert alert-danger"><%= error_to_string(err) %></p>
-              <% end %>
-            </article>
-          <% end %>
-        </div>
-        <div>
-          <%= for err <- upload_errors(@uploads.avatar) do %>
-            <p class="alert alert-danger"><%= error_to_string(err) %></p>
-          <% end %>
+        <div class="bg-gray-200 flex items-center">
+          <form id="upload-form" phx-submit="save" phx-change="validate">
+            <.live_file_input upload={@uploads.avatar} />
+            <%!-- <button type="submit" class="bg-blue-400 rounded-full py-2 px-4">Upload</button> --%>
+          </form>
         </div>
       </div>
+      <div class="flex justify-end">
+        <.button class="bg-[#979797] rounded-full mt-4">
+          <%= live_patch("Continue", to: "/address") %>
+        </.button>
+      </div>
+      <div>
+        <%= for entry <- @uploads.avatar.entries do %>
+          <article class="upload-entry">
+            <figure>
+              <.live_img_preview entry={entry} />
+              <figcaption><%= entry.client_name %></figcaption>
+            </figure>
+
+            <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
+
+            <button
+              type="button"
+              phx-click="cancel-upload"
+              phx-value-ref={entry.ref}
+              aria-label="cancel"
+            >
+              &times;
+            </button>
+
+            <%= for err <- upload_errors(@uploads.avatar, entry) do %>
+              <%!-- <p class="alert alert-danger"><%= error_to_string(err) %></p> --%>
+            <% end %>
+          </article>
+        <% end %>
+      </div>
+      <div>
+        <%= for err <- upload_errors(@uploads.avatar) do %>
+          <%!-- <p class="alert alert-danger"><%= error_to_string(err) %></p> --%>
+        <% end %>
+      </div>
     </div>
+  </div>
     """
   end
 

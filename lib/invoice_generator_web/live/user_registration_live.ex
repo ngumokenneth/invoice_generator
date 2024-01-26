@@ -6,56 +6,81 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center text-start">
-        <p class="text-3xl font-bold ">Create an Account</p>
-        <:subtitle>
-          <p class="text-sm">Begin Creating Invoices For Free!</p>
-        </:subtitle>
-      </.header>
+    <div class="mx-auto w-full  w-full bg-blue-200 px-8 lg:grid grid-cols-2">
+      <div class="bg-red-200  hidden lg:block">
+        <img src="../images/cover_image.png" alt="" />
+      </div>
 
-      <.simple_form
-        for={@form}
-        id="registration_form"
-        phx-submit="save"
-        phx-change="validate"
-        phx-trigger-action={@trigger_submit}
-        action={~p"/users/log_in?_action=registered"}
-        method="post"
-      >
-        <.error :if={@check_errors}>
-          Oops, something went wrong! Please check the errors below.
-        </.error>
-
-        <.input field={@form[:name]} type="text" placeholder="Enter Your Name" label="Name" required />
-        <.input
-          field={@form[:username]}
-          type="text"
-          placeholder="Enter Your Username"
-          label="Username"
-          required
-        />
-
-        <.input
-          field={@form[:email]}
-          type="email"
-          placeholder="Enter Your Email"
-          label="Email"
-          required
-        />
-        <.input field={@form[:password]} type="password" label="Password" required />
-
-        <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full bg-[#7C5DFA]">
-            Sign Up
-          </.button>
-        </:actions>
-      </.simple_form>
-      <div class="mt-4">
-        Already have an account?
-        <.link navigate={~p"/users/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
-          Login
-        </.link>
+      <div class="lg:flex bg-red-200 flex-col justify-center items-center ">
+        <div class="relative hidden lg:block  bottom-20 right-56 ">
+          <div class="flex items-center">
+            <img src="../images/right_arrow.svg" alt="" />
+            <p class="text-[#7C5DFA]">Back</p>
+          </div>
+        </div>
+        <div class="hidden lg:block -mt-6  w-full ">
+          <div class="flex items-center justify-center ">
+            <img src="../images/logo.svg" alt="company logo" class="w-8" />
+            <p class="text-[#7C5DFA] px-4 font-bold text-3xl">Invoice</p>
+          </div>
+        </div>
+        <.header class="text-center text-start lg:mt-16">
+          <p class="text-3xl font-bold lg:font-semibold ">Create an Account</p>
+          <:subtitle>
+            <subtitle class="text-sm ">Begin Creating Invoices For Free!</subtitle>
+          </:subtitle>
+        </.header>
+        <.simple_form
+          for={@form}
+          id="registration_form"
+          phx-submit="save"
+          phx-change="validate"
+          phx-trigger-action={@trigger_submit}
+          action={~p"/users/log_in?_action=registered"}
+          method="post"
+        >
+          <.error :if={@check_errors}>
+            Oops, something went wrong! Please check the errors below.
+          </.error>
+          <div class="lg:flex gap-4">
+            <.input
+              field={@form[:name]}
+              type="text"
+              placeholder="Enter Your Name"
+              label="Name"
+              required
+            />
+            <.input
+              field={@form[:username]}
+              type="text"
+              placeholder="Enter Your Username"
+              label="Username"
+              required
+            />
+          </div>
+          <.input
+            field={@form[:email]}
+            type="email"
+            placeholder="Enter Your Email"
+            label="Email"
+            required
+          />
+          <.input field={@form[:password]} type="password" label="Password" required />
+          <:actions>
+            <.button
+              phx-disable-with="Creating account..."
+              class="w-full bg-[#7C5DFA80] hover:bg-[#7C5DFA] lg:mt-8"
+            >
+              Sign Up
+            </.button>
+          </:actions>
+        </.simple_form>
+        <div class="mt-4 lg:mt-12">
+          Already have an account?
+          <.link navigate={~p"/users/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
+            Login
+          </.link>
+        </div>
       </div>
     </div>
     """
