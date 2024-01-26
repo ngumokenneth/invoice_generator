@@ -5,25 +5,28 @@ defmodule InvoiceGeneratorWeb.UserConfirmationInstructionsLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
+    <div class="mx-auto max-w-sm bg-[#7C5DFA33]">
       <.header class="text-center">
-        No confirmation instructions received?
-        <:subtitle>We'll send a new confirmation link to your inbox</:subtitle>
+        Confirm your email address
+        <:subtitle>
+          We've sent a confirmation email to  Please follow the link in the message to confirm your email address.
+          If you did not receive the email, please check your spam folder or:
+        </:subtitle>
       </.header>
 
       <.simple_form for={@form} id="resend_confirmation_form" phx-submit="send_instructions">
-        <.input field={@form[:email]} type="email" placeholder="Email" required />
+        <%!-- <.input field={@form[:email]} type="email" placeholder="Email" required /> --%>
         <:actions>
-          <.button phx-disable-with="Sending..." class="w-full">
+          <.button phx-disable-with="Sending..." class="w-full relative">
             Resend confirmation instructions
           </.button>
         </:actions>
       </.simple_form>
 
-      <p class="text-center mt-4">
+      <%!-- <p class="text-center mt-4">
         <.link href={~p"/users/register"}>Register</.link>
         | <.link href={~p"/users/log_in"}>Log in</.link>
-      </p>
+      </p> --%>
     </div>
     """
   end
@@ -33,6 +36,8 @@ defmodule InvoiceGeneratorWeb.UserConfirmationInstructionsLive do
   end
 
   def handle_event("send_instructions", %{"user" => %{"email" => email}}, socket) do
+    IO.inspect(socket.assigns.current_user)
+
     if user = Accounts.get_user_by_email(email) do
       Accounts.deliver_user_confirmation_instructions(
         user,

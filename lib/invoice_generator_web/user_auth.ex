@@ -199,15 +199,43 @@ defmodule InvoiceGeneratorWeb.UserAuth do
   If you want to enforce the user email is confirmed before
   they use the application at all, here would be a good place.
   """
+
+  # case conn.assigns[:current_user] do
+  #   nil ->
+  #     conn
+  #     |> put_flash(:error, "You must log in to access this page.")
+  #     |> maybe_store_return_to()
+  #     |> redirect(to: ~p"/login")
+  #     |> halt()
+
+  #   %Accounts.User{confirmed_at: nil} ->
+  #     conn
+  #     |> maybe_store_return_to()
+  #     |> redirect(to: ~p"/confirm")
+  #     |> halt()
+
+  #   _other ->
+  #     conn
+  # end
+
   def require_authenticated_user(conn, _opts) do
-    if conn.assigns[:current_user] do
-      conn
-    else
-      conn
-      |> put_flash(:error, "You must log in to access this page.")
-      |> maybe_store_return_to()
-      |> redirect(to: ~p"/users/log_in")
-      |> halt()
+    case conn.assigns[:current_user] do
+      nil ->
+        conn
+        |> put_flash(:error, "You must log in to access this page.")
+        |> maybe_store_return_to()
+        |> redirect(to: ~p"/users/log_in")
+        |> halt()
+
+      %Accounts.User{confirmed_at: nil} ->
+        conn
+        |> put_flash(:error, "You must confirm your email to access this page.")
+        |> maybe_store_return_to()
+        |> redirect(to: ~p"/users/log_in")
+        |> halt()
+
+      _ ->
+        conn
     end
   end
 

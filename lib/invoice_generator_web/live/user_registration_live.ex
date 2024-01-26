@@ -8,9 +8,9 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
     ~H"""
     <div class="mx-auto max-w-sm">
       <.header class="text-center text-start">
-        <p class="text-3xl font-bold">Create an Account</p>
-        <:subtitle >
-          <p class="text-sm">Begin Creating Invoices For Free</p>
+        <p class="text-3xl font-bold ">Create an Account</p>
+        <:subtitle>
+          <p class="text-sm">Begin Creating Invoices For Free!</p>
         </:subtitle>
       </.header>
 
@@ -27,22 +27,36 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
           Oops, something went wrong! Please check the errors below.
         </.error>
 
-        <.input field={@form[:email]} type="email" placeholder="Enter Your Name" label="Name" required />
-        <.input field={@form[:email]} type="email" placeholder="Enter Your Username" label="Username" required />
-        <.input field={@form[:email]} type="email" placeholder="Enter Your Email" label="Email" required />
+        <.input field={@form[:name]} type="text" placeholder="Enter Your Name" label="Name" required />
+        <.input
+          field={@form[:username]}
+          type="text"
+          placeholder="Enter Your Username"
+          label="Username"
+          required
+        />
+
+        <.input
+          field={@form[:email]}
+          type="email"
+          placeholder="Enter Your Email"
+          label="Email"
+          required
+        />
         <.input field={@form[:password]} type="password" label="Password" required />
 
         <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
+          <.button phx-disable-with="Creating account..." class="w-full bg-[#7C5DFA]">
+            Sign Up
+          </.button>
         </:actions>
-        <div>
-        Already have an account?
-          <.link navigate={~p"/users/log_in"} class="font-semibold text-brand hover:underline">
-            Login in
-          </.link>
-
-        </div>
       </.simple_form>
+      <div class="mt-4">
+        Already have an account?
+        <.link navigate={~p"/users/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
+          Login
+        </.link>
+      </div>
     </div>
     """
   end

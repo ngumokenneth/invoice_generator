@@ -21,10 +21,11 @@ defmodule InvoiceGeneratorWeb.UserSessionController do
   defp create(conn, %{"user" => user_params}, info) do
     %{"email" => email, "password" => password} = user_params
 
-    if user = Accounts.get_user_by_email_and_password(email, password) do
+    if Accounts.get_user_by_email_and_password(email, password) do
       conn
       |> put_flash(:info, info)
-      |> UserAuth.log_in_user(user, user_params)
+      |> put_session(:email, email)
+      |> redirect(to: ~p"/users/confirm")
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
       conn

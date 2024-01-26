@@ -44,7 +44,17 @@ defmodule InvoiceGenerator.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password, :username, :avatar, :country, :city, :postal_code, :street_address, :phone_number])
+    |> cast(attrs, [
+      :email,
+      :password,
+      :username,
+      :avatar,
+      :country,
+      :city,
+      :postal_code,
+      :street_address,
+      :phone_number
+    ])
     |> validate_email(opts)
     |> validate_password(opts)
   end
