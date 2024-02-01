@@ -1,25 +1,25 @@
-<main class=" h-screen flex md:flex-col justify-center lg:grid grid-cols-2 font-league">
-  <div class="bg-red-400 hidden lg:block">
+<main class="h-screen flex md:flex-col justify-center lg:grid grid-cols-2 font-league">
+  <div class="hidden lg:block">
     <div class=" w-full hidden lg:block">
-      <img src="../images/cover_image.png" alt="" />
+      <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
     </div>
   </div>
-  <div class="flex items-center justify-center">
-    <div class="m-3  md:w-4/12">
+  <div class="flex items-center justify-center  w-full">
+    <div class="w-9/12 md:w-6/12 lg:w-8/12">
       <div class="  flex items-center w-full justify-center">
         <div>
           <img src="../images/logo.svg" alt="company logo" class="w-8" />
         </div>
         <p class="text-[#7C5DFA] px-4 font-bold text-3xl">Invoice</p>
       </div>
-      <p class="font-semibold py-1 text-center sm:text-2xl">Sign In to Invoice</p>
-      <div class=" flex justify-center py-1 px-3 mt-12 rounded-full md:rounded-lg border-[#888EB0] border">
+      <p class="font-semibold py-4 text-center sm:text-2xl">Sign In to Invoice</p>
+      <div class=" flex justify-center py-1  mt-3 rounded-full md:rounded-lg border-[#888EB0] border">
         <img src="../images/google.svg" alt="Google logo" />
-        <button class=" px-2 ">Sign in with Google</button>
+        <button class="px-2">Sign in with Google</button>
       </div>
-      <div class=" flex justify-center py-1 px-3 mt-8 rounded-full md:rounded-lg border-[#888EB0] border">
+      <div class=" flex justify-center py-1  mt-8 rounded-full md:rounded-lg border-[#888EB0] border">
         <img src="../images/email.svg" alt="Google logo" />
-        <button class=" px-2 ">Sign in with Email</button>
+        <button class=" px-2 "><%= live_patch("Sign in with Email", to: "/users/log_in") %></button>
       </div>
       <div class="text-center mt-8 text-[#888EB0] ">
         <p>By creating an account, you agree to <span class="block">Invoice company’s</span>.</p>

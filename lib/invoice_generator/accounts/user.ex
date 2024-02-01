@@ -10,12 +10,8 @@ defmodule InvoiceGenerator.Accounts.User do
 
     field :username, :string
     field :avatar, :string
-    field :country, :string
-    field :city, :string
-    field :postal_code, :string
-    field :street_address, :string
-    field :phone_number, :string
 
+    embeds_one :address, InvoiceGenerator.Accounts.Address, on_replace: :update
     timestamps()
   end
 
@@ -48,13 +44,9 @@ defmodule InvoiceGenerator.Accounts.User do
       :email,
       :password,
       :username,
-      :avatar,
-      :country,
-      :city,
-      :postal_code,
-      :street_address,
-      :phone_number
+      :avatar
     ])
+    |> cast_embed(:address)
     |> validate_email(opts)
     |> validate_password(opts)
   end
@@ -172,5 +164,17 @@ defmodule InvoiceGenerator.Accounts.User do
     else
       add_error(changeset, :current_password, "is not valid")
     end
+  end
+
+  def update_user_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [
+      :email,
+      :password,
+      :username,
+      :avatar
+    ])
+    |> cast_embed(:address)
+    |> validate_email(opts)
   end
 end

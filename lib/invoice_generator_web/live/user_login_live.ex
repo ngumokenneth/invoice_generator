@@ -4,10 +4,10 @@ defmodule InvoiceGeneratorWeb.UserLoginLive do
   def render(assigns) do
     ~H"""
     <section class="grid lg:grid-cols-2 ">
-      <div class="bg-green-300 hidden lg:block">
-        <div class="bg-red-400 hidden lg:block">
-          <div class=" w-full hidden lg:block bg-red-500">
-            <img src="../images/cover_image.png" alt="" />
+      <div class="hidden lg:block">
+        <div class="hidden lg:block">
+          <div class=" w-full hidden lg:block">
+            <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
           </div>
         </div>
       </div>

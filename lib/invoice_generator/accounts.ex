@@ -26,6 +26,12 @@ defmodule InvoiceGenerator.Accounts do
     Repo.get_by(User, email: email)
   end
 
+  def add_avatar_to_db(attrs) do
+    %User{}
+    |> User.registration_changeset(attrs)
+    |> Repo.insert!()
+  end
+
   @doc """
   Gets a user by email and password.
 
@@ -126,6 +132,15 @@ defmodule InvoiceGenerator.Accounts do
     |> User.email_changeset(attrs)
     |> User.validate_current_password(password)
     |> Ecto.Changeset.apply_action(:update)
+  end
+
+  @doc """
+  A changeset for updating a user
+  """
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.update_user_changeset(attrs)
+    |> Repo.update()
   end
 
   @doc """

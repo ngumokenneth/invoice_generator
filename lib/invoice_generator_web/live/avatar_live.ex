@@ -7,67 +7,87 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="bg-red-400 h-screen">
-    <.header>
-      Welcome let's create your profile
-    </.header>
-    <p>Just a few more steps</p>
-    <%!-- <%= inspect(@uploads.avatar) %> --%>
+    <section class="lg:grid grid-cols-2">
+      <div class="hidden lg:block  overflow-hidden">
+        <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
+      </div>
+      <div class=" flex flex-col items-center ">
+        <div class="h-screen bg-green-300 w-full flex flex-col ">
+          <.header class="pt-3 lg:pt-9 w-full bg-gray-300 flex flex-col items-center">
+            <div class="flex items-center  w-full pt-12">
+              <div>
+                <img src="../images/logo.svg" alt="company logo" class="w-8" />
+              </div>
+              <p class="text-[#7C5DFA] px-4 font-bold text-3xl">Invoice</p>
+            </div>
+            <div class="pt-8">
+              <p class="text-xl  font-semi-bold  ">
+                Welcome let's create your profile
+                <span class="text-[#979797]  w-full block text-md  font-light text-start">
+                  Just a few more steps...
+                </span>
+              </p>
+            </div>
+          </.header>
 
-    <div>
-      <div class="grid grid-cols-2 bg-red-300 ">
-        <div class="flex justify-center">
-          <div
-            phx-drop-target={@uploads.avatar.ref}
-            class=" w-24 h-24 rounded-full border border-dashed flex justify-center"
-          >
-            <img src="../images/user_icon.svg" alt="user icon" class="w-10" />
+          <%!-- <%= inspect(@uploads.avatar) %> --%>
+          <div class="w-full   bg-white flex flex-col items-center">
+            <div>
+              <h2 class="pt-8 pb-6 font-bold lg:text-2xl  w-full">Add an avatar</h2>
+              <div class="flex items-center gap-6">
+                <div
+                  phx-drop-target={@uploads.avatar.ref}
+                  class=" w-24 h-24 rounded-full border border-2 border-dashed flex justify-center"
+                >
+                  <img src="../images/user_icon.svg" alt="user icon" class="w-10" />
+                </div>
+                <label for="avatar">
+                  <div class=" flex items-center ">
+                    <div class="mr-4">
+                      <.live_file_input upload={@uploads.avatar} class="sr-only" />
+                    </div>
+                    <span class="text-white font-bold bg-[#7C5DFA] hover:opacity-75 px-4 py-2 rounded-full cursor-pointer">
+                      Choose Image
+                    </span>
+                  </div>
+                  <div class="flex justify-end">
+                    <.button class="bg-[#979797] px-4 rounded-full mt-4">
+                      <%= live_patch("Continue", to: "/address") %>
+                    </.button>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div>
+              <%= for avatar <- @uploads.avatar.entries do %>
+                <div>
+                  <.live_img_preview entry={avatar} />
+                  <button
+                    type="button"
+                    phx-click="cancel-upload"
+                    phx-value-ref={avatar.ref}
+                    aria-label="cancel"
+                  >
+                    &times;
+                  </button>
+                  <%= for err <- upload_errors(@uploads.avatar, avatar) do %>
+                    <p class="alert alert-danger"><%= error_to_string(err) %></p>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+            <div>
+              <%= for err <- upload_errors(@uploads.avatar) do %>
+                <p class="alert alert-danger"><%= error_to_string(err) %></p>
+              <% end %>
+            </div>
+          </div>
+          <div class="pt-5 lg:hidden w-full">
+            <img src="../images/footer_rectangle.png" alt="" class="w-full" />
           </div>
         </div>
-        <div class="bg-gray-200 flex items-center">
-          <form id="upload-form" phx-submit="save" phx-change="validate">
-            <.live_file_input upload={@uploads.avatar} />
-            <%!-- <button type="submit" class="bg-blue-400 rounded-full py-2 px-4">Upload</button> --%>
-          </form>
-        </div>
       </div>
-      <div class="flex justify-end">
-        <.button class="bg-[#979797] rounded-full mt-4">
-          <%= live_patch("Continue", to: "/address") %>
-        </.button>
-      </div>
-      <div>
-        <%= for entry <- @uploads.avatar.entries do %>
-          <article class="upload-entry">
-            <figure>
-              <.live_img_preview entry={entry} />
-              <figcaption><%= entry.client_name %></figcaption>
-            </figure>
-
-            <progress value={entry.progress} max="100"><%= entry.progress %>%</progress>
-
-            <button
-              type="button"
-              phx-click="cancel-upload"
-              phx-value-ref={entry.ref}
-              aria-label="cancel"
-            >
-              &times;
-            </button>
-
-            <%= for err <- upload_errors(@uploads.avatar, entry) do %>
-              <%!-- <p class="alert alert-danger"><%= error_to_string(err) %></p> --%>
-            <% end %>
-          </article>
-        <% end %>
-      </div>
-      <div>
-        <%= for err <- upload_errors(@uploads.avatar) do %>
-          <%!-- <p class="alert alert-danger"><%= error_to_string(err) %></p> --%>
-        <% end %>
-      </div>
-    </div>
-  </div>
+    </section>
     """
   end
 
@@ -114,10 +134,10 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
     {:noreply, socket}
   end
 
-  def handle_event("save", %{"avatar" => user_params}, socket) do
-    changeset = Accounts.change_user_registration(%User{}, user_params)
-    {:noreply, assign(socket, Map.put(changeset, :action, :validate))}
-  end
+  # def handle_event("save", %{"avatar" => user_params}, socket) do
+  #   changeset = Accounts.change_user_registration(%User{}, user_params)
+  #   {:noreply, assign(socket, Map.put(changeset, :action, :validate))}
+  # end
 
   # create changeset to update avatar in db
 end

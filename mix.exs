@@ -62,7 +62,7 @@ defmodule InvoiceGenerator.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:credo, "~> 1.7"},
       {:sobelow, "~> 0.13.0"},
-      {:dialyxir, "~> 1.4"},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.18", only: :test}
     ]
   end
