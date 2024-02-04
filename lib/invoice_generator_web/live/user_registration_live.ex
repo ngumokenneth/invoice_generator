@@ -7,15 +7,15 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
   def render(assigns) do
     ~H"""
     <div class="mx-auto w-full  w-full lg:grid grid-cols-2">
-      <div class="overflow-hidden hidden lg:block">
-        <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
+      <div class="bg-red-300 overflow-hidden hidden h-svh lg:block">
+        <img src="../images/cover_image.png" alt="" class="h-[43.75rem] object-fit w-full" />
       </div>
 
-      <div class="lg:flex  flex-col justify-center items-center ">
-        <div class="relative hidden lg:block  bottom-20 right-56 ">
+      <div class="lg:flex  flex-col items-center justify-center ">
+        <div class="relative hidden lg:block  bottom-10 right-48 ">
           <div class="flex items-center">
             <img src="../images/right_arrow.svg" alt="" />
-            <p class="text-[#7C5DFA]">Back</p>
+            <p class="text-[#7C5DFA]"><%= live_patch("Back", to: ~p"/") %></p>
           </div>
         </div>
         <div class="hidden lg:block -mt-6  w-full ">
@@ -30,7 +30,7 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
             <subtitle class="text-sm ">Begin Creating Invoices For Free!</subtitle>
           </:subtitle>
         </.header>
-        <div class="w-full px-8">
+        <div class="w-full px-8 flex justify-center">
           <.simple_form
             for={@form}
             id="registration_form"
@@ -70,14 +70,14 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
             <:actions>
               <.button
                 phx-disable-with="Creating account..."
-                class="w-full bg-[#7C5DFA80] hover:bg-[#7C5DFA] lg:mt-4"
+                class="w-full bg-[#7C5DFA80] hover:bg-[#7C5DFA]"
               >
                 Sign Up
               </.button>
             </:actions>
           </.simple_form>
         </div>
-        <div class="mt-4 lg:mt-6 px-8">
+        <div class="mt-4 px-8">
           Already have an account?
           <.link navigate={~p"/users/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
             Login

@@ -5,20 +5,20 @@ defmodule InvoiceGeneratorWeb.UserConfirmationLive do
 
   def render(%{live_action: :edit} = assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">Confirm Account</.header>
+    <div class="flex flec-col items-center w-full h-screen">
+      <div class="mx-auto max-w-sm bg-[#7C5DFA33] w-full px-8 rounded-lg py-6">
+        <.header class="text-center">Confirm Account</.header>
+        <.form for={@form} id="confirmation_form" phx-submit="confirm_account">
+          <.input field={@form[:token]} type="hidden" />
 
-      <.simple_form for={@form} id="confirmation_form" phx-submit="confirm_account">
-        <.input field={@form[:token]} type="hidden" />
-        <:actions>
-          <.button phx-disable-with="Confirming..." class="w-full">Confirm my account</.button>
-        </:actions>
-      </.simple_form>
+            <.button phx-disable-with="Confirming..." class="w-full my-3">Confirm my account</.button>
 
-      <p class="text-center mt-4">
-        <.link href={~p"/users/register"}>Register</.link>
-        | <.link href={~p"/users/log_in"}>Log in</.link>
-      </p>
+        </.form>
+        <p class="text-center mt-4">
+          <.link href={~p"/users/register"}>Register</.link>
+          | <.link href={~p"/users/log_in"}>Log in</.link>
+        </p>
+      </div>
     </div>
     """
   end

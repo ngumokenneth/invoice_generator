@@ -22,7 +22,6 @@ defmodule InvoiceGeneratorWeb.Router do
 
     get "/", PageController, :home
     live "/profile", AvatarLive
-    live "/address", AddressLive
   end
 
   # Other scopes may use custom stacks.
@@ -70,6 +69,8 @@ defmodule InvoiceGeneratorWeb.Router do
       on_mount: [{InvoiceGeneratorWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+      live "/address", AddressLive
+      live "/profile", AvatarLive
     end
   end
 
@@ -81,7 +82,7 @@ defmodule InvoiceGeneratorWeb.Router do
     live_session :current_user,
       on_mount: [{InvoiceGeneratorWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
-      live "/users/confirm", UserConfirmationInstructionsLive, :new
+      live "/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end

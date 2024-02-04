@@ -7,12 +7,12 @@ defmodule InvoiceGeneratorWeb.UserForgotPasswordLive do
     ~H"""
     <div class="grid lg:grid-cols-2">
       <div class="hidden lg:block">
-        <div class="hidden lg:block  overflow-hidden">
+        <div class="hidden lg:block overflow-hidden">
           <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
         </div>
       </div>
-      <div class="bg-blue-500 h-screen flex items-center">
-        <div class="mx-auto max-w-sm bg-green-200 w-full">
+      <div class="h-screen flex items-center">
+        <div class="mx-auto max-w-sm w-full">
           <.header class="text-center">
             Forgot your password?
             <:subtitle>

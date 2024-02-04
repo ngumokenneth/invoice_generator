@@ -6,48 +6,91 @@ defmodule InvoiceGeneratorWeb.AddressLive do
 
   def render(assigns) do
     ~H"""
-    <.header>
-      <p class="[#7C5DFA]">Logo</p>
-      <p>Enter your business address details</p>
-    </.header>
-    <div>
-      <.simple_form for={@form} phx-change="validate" phx-submit="save_address">
-        <.input
-          field={@form[:country]}
-          type="text"
-          placeholder="Choose Your Country"
-          phx-debounce="blur"
-        >
-          Country
-        </.input>
-        <.input field={@form[:city]} type="text" placeholder="City Name" phx-debounce="blur" required>
-          city
-        </.input>
-        <.input
-          field={@form[:street_address]}
-          placeholder="Street Address"
-          phx-debounce="blur"
-          required
-        >
-          Street Address
-        </.input>
-        <.input field={@form[:postal_code]} placeholder="Postal Code" phx-debounce="blur" required>
-          Postal Code
-        </.input>
-        <.input field={@form[:phone_number]} placeholder="Phone Number" phx-debounce="blur" required>
-          Postal Code
-        </.input>
-        <div class="flex gap-4 mt-4">
-          <%!-- <.button class="w-full rounded-full"><%= live_patch("Back", to: "/profile") %></.button> --%>
-          <.button phx-disable-with="Saving..." class="w-full rounded-full">Save</.button>
+    <section class="h-screen lg:grid grid-cols-2 ">
+      <div class="bg-red-300 overflow-hidden hidden h-svh lg:block">
+        <img src="../images/cover_image.png" alt="" class="h-[43.75rem] object-fit w-full" />
+      </div>
+
+      <div class="flex flex-col w-full items-center justify-center">
+        <div class="w-9/12">
+          <.header class="my-8">
+            <div class="lg:relative hidden lg:block  bottom-4 right-12 ">
+              <div class="flex items-center">
+                <img src="../images/right_arrow.svg" alt="" />
+                <p class="text-[#7C5DFA]"><%= live_patch("Back", to: "/profile") %></p>
+              </div>
+            </div>
+            <div class="flex items-center w-full lg:justify-center">
+              <div>
+                <img src="../images/logo.svg" alt="company logo" class="w-16" />
+              </div>
+              <p class="text-[#7C5DFA] px-4 font-bold text-4xl">Invoice</p>
+            </div>
+            <p class="w-9/12 lg:w-full py-8 lg:text-center">Enter your business address details</p>
+          </.header>
+          <div class="-mt-10 w-full">
+            <.simple_form for={@form} phx-change="validate" phx-submit="save_address">
+              <div class="lg:flex place-content-between">
+                <.input
+                  field={@form[:country]}
+                  type="text"
+                  placeholder="Choose Your Country"
+                  phx-debounce="blur"
+                >
+                  Country
+                </.input>
+                <.input
+                  field={@form[:city]}
+                  type="text"
+                  placeholder="City Name"
+                  phx-debounce="blur"
+                  required
+                >
+                  city
+                </.input>
+              </div>
+              <.input
+                field={@form[:street_address]}
+                placeholder="Street Address"
+                phx-debounce="blur"
+                required
+              >
+                Street Address
+              </.input>
+              <.input
+                field={@form[:postal_code]}
+                placeholder="Postal Code"
+                phx-debounce="blur"
+                required
+              >
+                Postal Code
+              </.input>
+              <.input
+                field={@form[:phone_number]}
+                placeholder="Phone Number"
+                phx-debounce="blur"
+                required
+              >
+                Postal Code
+              </.input>
+              <div class="flex gap-4  lg:justify-end place-content-between">
+                <.button class="lg:hidden px-16 rounded-full text-black bg-[#FFFFFF] border">
+                  <%= live_patch("Back", to: "/profile") %>
+                </.button>
+                <.button phx-disable-with="Saving..." class=" rounded-full bg-[#7C5DFA] px-16">
+                  Save
+                </.button>
+              </div>
+            </.simple_form>
+          </div>
         </div>
-      </.simple_form>
-    </div>
+      </div>
+    </section>
     """
   end
 
-  def mount(_params, %{"email" => email}, socket) do
-    user = Accounts.get_user_by_email(email)
+  def mount(_params, _session, socket) do
+    user = socket.assigns.current_user
     form = to_form(Address.changeset(%Address{}))
 
     {:ok,
