@@ -203,7 +203,7 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
               <p class="alert alert-danger"><%= error_to_string(err) %></p>
             <% end %>
           </section>
-
+          <.link navigate={~p"/address"}> kennne</.link>
           <form
             id="upload-form"
             phx-submit="save"
@@ -214,7 +214,11 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
               <.live_file_input class="hidden" upload={@uploads.avatar} />
               <span>Choose Image</span>
             </label>
-            <button type="submit" class="bg-[#979797] w-32 translate-x-16 rounded-full py-1 ">
+            <button
+              type="submit"
+              navigate={~p"/address"}
+              class="bg-[#979797] w-32 translate-x-16 rounded-full py-1 "
+            >
               Continue
             </button>
           </form>
@@ -250,15 +254,6 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
 
   @impl Phoenix.LiveView
   def handle_event("save", _params, socket) do
-    # uploaded_files =
-    #   consume_uploaded_entries(socket, :avatar, fn %{path: path}, _entry ->
-    #     dest = Path.join([:code.priv_dir(:my_app), "static", "uploads", Path.basename(path)])
-    #     # You will need to create `priv/static/uploads` for `File.cp!/2` to work.
-    #     File.cp!(path, dest)
-    #     {:ok, ~p"/uploads/#{Path.basename(dest)}"}
-    #   end)
-
-    # {:noreply, update(socket, :uploaded_files, &(&1 ++ uploaded_files))}
     case consume_uploads(socket) do
       [] ->
         {:noreply, socket}
@@ -274,7 +269,9 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
 
         case Accounts.update_user(user, attrs) do
           {:ok, user} ->
-            {:noreply, assign(socket, :current_user, user)}
+            {:noreply,
+             socket
+             |> assign(:current_user, user)}
 
           {:error, %Ecto.Changeset{} = _changeset} ->
             {:noreply, socket}

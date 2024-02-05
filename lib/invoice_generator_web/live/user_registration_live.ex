@@ -37,7 +37,7 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
             phx-submit="save"
             phx-change="validate"
             phx-trigger-action={@trigger_submit}
-            action={~p"/users/log_in?_action=registered"}
+            action={~p"/log_in?_action=registered"}
             method="post"
           >
             <.error :if={@check_errors}>
@@ -79,7 +79,7 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
         </div>
         <div class="mt-4 px-8">
           Already have an account?
-          <.link navigate={~p"/users/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
+          <.link navigate={~p"/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
             Login
           </.link>
         </div>
@@ -105,7 +105,7 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
         {:ok, _} =
           Accounts.deliver_user_confirmation_instructions(
             user,
-            &url(~p"/users/confirm/#{&1}")
+            &url(~p"/confirm/#{&1}")
           )
 
         changeset = Accounts.change_user_registration(user)

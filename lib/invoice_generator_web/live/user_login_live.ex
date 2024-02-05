@@ -9,10 +9,10 @@ defmodule InvoiceGeneratorWeb.UserLoginLive do
       </div>
 
       <div class="mx-10 flex flex-col justify-center items-center ">
-      <div class="relative hidden lg:block  bottom-10 right-48 ">
+        <div class="relative hidden lg:block  bottom-10 right-48 ">
           <div class="flex items-center">
             <img src="../images/right_arrow.svg" alt="" />
-            <p class="text-[#7C5DFA]"><%=live_patch("Back", to: ~p"/") %></p>
+            <p class="text-[#7C5DFA]"><%= live_patch("Back", to: ~p"/") %></p>
           </div>
         </div>
         <div class="hidden lg:block w-full ">
@@ -26,17 +26,20 @@ defmodule InvoiceGeneratorWeb.UserLoginLive do
             Sign in to Invoice
           </h1>
           <div class="-mt-4">
-            <.simple_form for={@form} id="login_form" action={~p"/users/log_in"} phx-update="ignore">
+            <.simple_form for={@form} id="login_form" action={~p"/log_in"} phx-update="ignore">
               <.input field={@form[:email]} type="email" label="Email" required />
               <.input field={@form[:password]} type="password" label="Password" required />
               <:actions>
                 <.input field={@form[:remember_me]} type="checkbox" label="Keep me logged in" />
-                <.link href={~p"/users/reset_password"} class="text-sm font-semibold">
+                <.link href={~p"/reset_password"} class="text-sm font-semibold">
                   Forgot your password?
                 </.link>
               </:actions>
               <:actions>
-                <.button phx-disable-with="Signing in..." class="w-full rounded bg-[#7C5DFA]">
+                <.button
+                  phx-disable-with="Signing in..."
+                  class="w-full rounded bg-[#7C5DFA] hover:bg-green-600"
+                >
                   Continue
                 </.button>
               </:actions>
@@ -44,7 +47,7 @@ defmodule InvoiceGeneratorWeb.UserLoginLive do
           </div>
           <p class="mt-2">
             Don't have an account?
-            <.link navigate={~p"/users/register"} class="font-semibold text-brand hover:underline">
+            <.link navigate={~p"/register"} class="font-semibold text-brand hover:underline">
               Sign up
             </.link>
             for an account now.
