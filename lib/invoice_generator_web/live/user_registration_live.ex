@@ -6,7 +6,7 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto w-full  w-full lg:grid grid-cols-2">
+    <div class="mx-auto w-full lg:grid grid-cols-2">
       <div class="bg-red-300 overflow-hidden hidden h-svh lg:block">
         <img src="../images/cover_image.png" alt="" class="h-[43.75rem] object-fit w-full" />
       </div>

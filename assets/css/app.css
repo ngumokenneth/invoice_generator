@@ -2,5 +2,4 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap')
-/* This file is for your main application CSS */
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&display=swap"); /* This file is for your main application CSS */

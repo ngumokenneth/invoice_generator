@@ -11,12 +11,10 @@ defmodule InvoiceGeneratorWeb.UserConfirmationLive do
         <.form for={@form} id="confirmation_form" phx-submit="confirm_account">
           <.input field={@form[:token]} type="hidden" />
 
-            <.button phx-disable-with="Confirming..." class="w-full my-3">Confirm my account</.button>
-
+          <.button phx-disable-with="Confirming..." class="w-full my-3">Confirm my account</.button>
         </.form>
         <p class="text-center mt-4">
-          <.link href={~p"/register"}>Register</.link>
-          | <.link href={~p"/log_in"}>Log in</.link>
+          <.link href={~p"/register"}>Register</.link> | <.link href={~p"/log_in"}>Log in</.link>
         </p>
       </div>
     </div>

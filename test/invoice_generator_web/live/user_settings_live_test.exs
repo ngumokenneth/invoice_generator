@@ -175,7 +175,7 @@ defmodule InvoiceGeneratorWeb.UserSettingsLiveTest do
       {:error, redirect} = live(conn, ~p"/settings/confirm_email/#{token}")
 
       assert {:live_redirect, %{to: path, flash: flash}} = redirect
-      assert path == ~p"/users/settings"
+      assert path == ~p"/settings"
       assert %{"info" => message} = flash
       assert message == "Email changed successfully."
       refute Accounts.get_user_by_email(user.email)
