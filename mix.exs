@@ -5,18 +5,42 @@ defmodule InvoiceGenerator.MixProject do
     [
       app: :invoice_generator,
       version: "0.1.0",
-      elixir: "~> 1.14",
+      elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
+        ci: :test,
+        "ci.code_quality": :test,
+        "ci.deps": :test,
+        "ci.formatting": :test,
+        "ci.migrations": :test,
+        "ci.security": :test,
+        "ci.test": :test,
         coveralls: :test,
         "coveralls.detail": :test,
-        "coveralls.post": :test,
         "coveralls.html": :test,
-        "coveralls.cobertura": :test
+        credo: :test,
+        dialyzer: :test,
+        sobelow: :test
+      ],
+      compilers: [:yecc] ++ Mix.compilers(),
+      compilers: [:leex] ++ Mix.compilers(),
+      test_coverage: [tool: ExCoveralls],
+      dialyzer: [
+        ignore_warnings: ".dialyzer_ignore.exs",
+        plt_add_apps: [:ex_unit, :mix],
+        plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
+      ],
+
+      # Docs
+      name: "InvoiceGenerator",
+      source_url: "https://github.com/kagure-nyakio/invoice_generator",
+      docs: [
+        extras: ["README.md"],
+        main: "readme",
+        source_ref: "main"
       ]
     ]
   end
@@ -60,10 +84,12 @@ defmodule InvoiceGenerator.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:credo, "~> 1.7"},
-      {:sobelow, "~> 0.13.0"},
-      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
-      {:excoveralls, "~> 0.18", only: :test}
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.18", only: :test},
+      {:dialyxir, "~> 1.1", only: [:dev, :test], runtime: false},
+      {:sobelow, "~> 0.13", only: [:dev, :test], runtime: false},
+      {:mix_audit, "~> 1.0", only: [:dev, :test], runtime: false}
+
     ]
   end
 
@@ -81,7 +107,36 @@ defmodule InvoiceGenerator.MixProject do
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
       "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      ci: [
+        "ci.deps_and_security",
+        "ci.formatting",
+        "ci.code_quality",
+        "ci.test"
+        # "ci.migrations"
+      ],
+      "ci.code_quality": [
+        "compile --force --warnings-as-errors",
+        "credo --strict",
+        "dialyzer"
+      ],
+      "ci.deps_and_security": [
+        "deps.unlock --check-unused",
+        "deps.audit",
+        "sobelow --config .sobelow-conf"
+      ],
+      "ci.formatting": ["format --check-formatted", "cmd --cd assets npx prettier -c .."],
+      "ci.migrations": [
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "ecto.rollback --all --quiet"
+      ],
+      "ci.test": [
+        "ecto.create --quiet",
+        "ecto.migrate --quiet",
+        "test --cover --warnings-as-errors"
+      ],
+      prettier: ["cmd --cd assets npx prettier -w .."]
     ]
   end
 end

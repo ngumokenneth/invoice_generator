@@ -6,7 +6,7 @@ defmodule InvoiceGeneratorWeb.UserConfirmationInstructionsLive do
   def render(assigns) do
     ~H"""
     <div class=" flex flex-col justify-center items-center h-screen ">
-      <div class=" w-6/12 flex flex-col justify-center bg-[#7C5DFA33]  px-8 py-4 w-full rounded-lg">
+      <div class=" w-6/12 flex flex-col justify-center bg-[#7C5DFA33]  px-8 py-4  rounded-lg">
         <.header class="text-center">
           Confirm your email address
         </.header>
