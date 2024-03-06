@@ -6,30 +6,38 @@ defmodule InvoiceGeneratorWeb.AddressLive do
 
   def render(assigns) do
     ~H"""
-    <section class="h-screen lg:grid grid-cols-2 ">
-      <div class="bg-red-300 overflow-hidden hidden h-svh lg:block">
-        <img src="../images/cover_image.png" alt="" class="h-[43.75rem] object-fit w-full" />
+    <section class="h-screen grid-cols-2 lg:grid ">
+      <div class="hidden lg:block">
+        <div class="lg:block">
+          <img src="../images/cover_image.png" alt="" />
+        </div>
       </div>
 
-      <div class="flex flex-col w-full items-center justify-center">
-        <div class="w-9/12">
+      <div class="flex flex-col items-center justify-center w-full">
+        <div class="w-full px-5 lg:px-16">
           <.header class="my-8">
-            <div class="lg:relative hidden lg:block  bottom-4 right-12 ">
-              <div class="flex items-center">
+            <div class="hidden lg:relative lg:block bottom-40 right-12 ">
+              <div class="flex items-center ">
                 <img src="../images/right_arrow.svg" alt="" />
-                <p class="text-[#7C5DFA]"><%= live_patch("Back", to: "/profile") %></p>
+                <p class="text-[#7C5DFA]"><.link navigate={~p"/"}>Back</.link></p>
               </div>
             </div>
-            <div class="flex items-center w-full lg:justify-center">
-              <div>
-                <img src="../images/logo.svg" alt="company logo" class="w-16" />
+            <div class="flex flex-col">
+              <div class="flex items-center lg:justify-center">
+                <img src="../images/logo.svg" alt="company logo" class="w-10 lg:w-16" />
+                <p class="text-[#7C5DFA] px-4 font-bold text-3xl lg:text-4xl">Invoice</p>
               </div>
-              <p class="text-[#7C5DFA] px-4 font-bold text-4xl">Invoice</p>
+              <p class="w-9/12 py-4 lg:pt-12 lg:w-full">Enter your business address details:</p>
             </div>
-            <p class="w-9/12 lg:w-full py-8 lg:text-center">Enter your business address details</p>
           </.header>
-          <div class="-mt-10 w-full">
-            <.simple_form for={@form} phx-change="validate" phx-submit="save_address">
+          <div class="w-full -mt-10">
+            <.simple_form
+              for={@form}
+              id="address_form"
+              phx-change="validate"
+              phx-submit="save_address"
+              action={~p"/address"}
+            >
               <div class="lg:flex place-content-between">
                 <.input
                   field={@form[:country]}
@@ -73,9 +81,9 @@ defmodule InvoiceGeneratorWeb.AddressLive do
               >
                 Postal Code
               </.input>
-              <div class="flex gap-4  lg:justify-end place-content-between">
+              <div class="flex gap-4 lg:justify-end place-content-between">
                 <.button class="lg:hidden px-16 rounded-full text-black bg-[#FFFFFF] border">
-                  <%= live_patch("Back", to: "/profile") %>
+                  <.link navigate={~p"/profile"}>Back</.link>
                 </.button>
                 <.button phx-disable-with="Saving..." class=" rounded-full bg-[#7C5DFA] px-16">
                   Save
@@ -91,7 +99,7 @@ defmodule InvoiceGeneratorWeb.AddressLive do
 
   def mount(_params, _session, socket) do
     user = socket.assigns.current_user
-    form = to_form(Address.changeset(%Address{}))
+    form = to_form(Address.changeset(%Address{}), as: "address")
 
     {:ok,
      socket
@@ -123,7 +131,9 @@ defmodule InvoiceGeneratorWeb.AddressLive do
          socket
          |> assign(current_user: user)
          |> put_flash(:info, "Address updated successfully")
+         |> IO.inspect(label: "flash_socket")
          |> push_redirect(to: "/")}
+         
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply,

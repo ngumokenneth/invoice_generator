@@ -1,4 +1,6 @@
 defmodule InvoiceGenerator.AccountsFixtures do
+  alias InvoiceGenerator.Accounts
+
   @moduledoc """
   This module defines test helpers for creating
   entities via the `InvoiceGenerator.Accounts` context.
@@ -27,5 +29,13 @@ defmodule InvoiceGenerator.AccountsFixtures do
     {:ok, captured_email} = fun.(&"[TOKEN]#{&1}[TOKEN]")
     [_, token | _] = String.split(captured_email.text_body, "[TOKEN]")
     token
+  end
+
+  def confirm_email(user) do
+    {:ok, user} =
+      extract_user_token(fn url -> Accounts.deliver_user_confirmation_instructions(user, url) end)
+      |> Accounts.confirm_user()
+
+    user
   end
 end

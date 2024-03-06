@@ -138,9 +138,15 @@ defmodule InvoiceGenerator.Accounts do
   A changeset for updating a user
   """
   def update_user(%User{} = user, attrs) do
-    user
-    |> User.update_user_changeset(attrs)
-    |> Repo.update()
+    changeset = User.update_user_changeset(user, attrs)
+
+    case Repo.update(changeset) do
+      {:ok, user} ->
+        {:ok, user}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """

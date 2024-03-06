@@ -70,6 +70,7 @@ defmodule InvoiceGeneratorWeb.Router do
       live "/settings/confirm_email/:token", UserSettingsLive, :confirm_email
       live "/address", AddressLive
       live "/profile", AvatarLive
+      live "/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 
@@ -81,7 +82,6 @@ defmodule InvoiceGeneratorWeb.Router do
     live_session :current_user,
       on_mount: [{InvoiceGeneratorWeb.UserAuth, :mount_current_user}] do
       live "/confirm/:token", UserConfirmationLive, :edit
-      live "/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end

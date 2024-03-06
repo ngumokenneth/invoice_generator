@@ -6,31 +6,31 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto w-full lg:grid grid-cols-2">
-      <div class="bg-red-300 overflow-hidden hidden h-svh lg:block">
+    <div class="w-full grid-cols-2 mx-auto lg:grid">
+      <div class="hidden overflow-hidden h-svh lg:block">
         <img src="../images/cover_image.png" alt="" class="h-[43.75rem] object-fit w-full" />
       </div>
 
-      <div class="lg:flex  flex-col items-center justify-center ">
-        <div class="relative hidden lg:block  bottom-10 right-48 ">
+      <div class="flex-col items-center justify-center lg:flex ">
+        <div class="relative hidden lg:block bottom-10 right-48 ">
           <div class="flex items-center">
             <img src="../images/right_arrow.svg" alt="" />
-            <p class="text-[#7C5DFA]"><%= live_patch("Back", to: ~p"/") %></p>
+            <p class="text-[#7C5DFA]"><.link navigate={~p"/"}>Back</.link></p>
           </div>
         </div>
-        <div class="hidden lg:block -mt-6  w-full ">
+        <div class="hidden w-full -mt-6 lg:block ">
           <div class="flex items-center justify-center ">
             <img src="../images/logo.svg" alt="company logo" class="w-8" />
             <p class="text-[#7C5DFA] px-4 font-bold text-3xl">Invoice</p>
           </div>
         </div>
-        <.header class="text-center text-start px-8 lg:mt-8">
+        <.header class="px-8 lg:text-center text-start lg:mt-8">
           <p class="text-3xl font-bold lg:font-semibold ">Create an Account</p>
           <:subtitle>
             <subtitle class="text-sm ">Begin Creating Invoices For Free!</subtitle>
           </:subtitle>
         </.header>
-        <div class="w-full px-8 flex justify-center">
+        <div class="flex justify-center w-full px-8">
           <.simple_form
             for={@form}
             id="registration_form"
@@ -43,7 +43,7 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
             <.error :if={@check_errors}>
               Oops, something went wrong! Please check the errors below.
             </.error>
-            <div class="lg:flex gap-4">
+            <div class="gap-4 lg:flex">
               <.input
                 field={@form[:name]}
                 type="text"
@@ -77,10 +77,10 @@ defmodule InvoiceGeneratorWeb.UserRegistrationLive do
             </:actions>
           </.simple_form>
         </div>
-        <div class="mt-4 px-8">
+        <div class="px-8 mt-4">
           Already have an account?
-          <.link navigate={~p"/log_in"} class="text-brand text-[#7C5DFA] hover:underline">
-            Login
+          <.link navigate={~p"/log_in"} class="text-[#7C5DFA] hover:underline">
+            Log_in
           </.link>
         </div>
       </div>

@@ -264,7 +264,11 @@ defmodule InvoiceGeneratorWeb.UserAuthTest do
     end
 
     test "does not redirect if user is authenticated", %{conn: conn, user: user} do
-      conn = conn |> assign(:current_user, user) |> UserAuth.require_authenticated_user([])
+      conn =
+        conn
+        |> assign(:current_user, user)
+        |> UserAuth.require_authenticated_user([])
+
       refute conn.halted
       refute conn.status
     end

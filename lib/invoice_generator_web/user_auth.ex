@@ -201,14 +201,6 @@ defmodule InvoiceGeneratorWeb.UserAuth do
   """
 
   def require_authenticated_user(conn, _opts) do
-    # if conn.assigns[:current_user] do
-    #   conn
-    #   |> redirect(to: signed_in_path(conn))
-    #   |> halt()
-    # else
-    #   conn
-    # end
-
     case conn.assigns[:current_user] do
       nil ->
         conn

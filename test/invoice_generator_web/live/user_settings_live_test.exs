@@ -6,10 +6,15 @@ defmodule InvoiceGeneratorWeb.UserSettingsLiveTest do
   import InvoiceGenerator.AccountsFixtures
 
   describe "Settings page" do
-    test "renders settings page", %{conn: conn} do
+    setup %{conn: conn} do
+      password = valid_user_password()
+      user = user_fixture(%{password: password}) |> confirm_email()
+      %{conn: log_in_user(conn, user), user: user, password: password}
+    end
+
+    test "renders settings page", %{conn: conn, user: user} do
       {:ok, _lv, html} =
         conn
-        |> log_in_user(user_fixture())
         |> live(~p"/settings")
 
       assert html =~ "Change Email"
@@ -28,7 +33,7 @@ defmodule InvoiceGeneratorWeb.UserSettingsLiveTest do
   describe "update email form" do
     setup %{conn: conn} do
       password = valid_user_password()
-      user = user_fixture(%{password: password})
+      user = user_fixture(%{password: password}) |> confirm_email()
       %{conn: log_in_user(conn, user), user: user, password: password}
     end
 
@@ -85,7 +90,7 @@ defmodule InvoiceGeneratorWeb.UserSettingsLiveTest do
   describe "update password form" do
     setup %{conn: conn} do
       password = valid_user_password()
-      user = user_fixture(%{password: password})
+      user = user_fixture(%{password: password}) |> confirm_email()
       %{conn: log_in_user(conn, user), user: user, password: password}
     end
 
@@ -160,7 +165,7 @@ defmodule InvoiceGeneratorWeb.UserSettingsLiveTest do
 
   describe "confirm email" do
     setup %{conn: conn} do
-      user = user_fixture()
+      user = user_fixture() |> confirm_email()
       email = unique_user_email()
 
       token =

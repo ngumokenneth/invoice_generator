@@ -6,73 +6,75 @@ defmodule InvoiceGeneratorWeb.AvatarLive do
   @impl Phoenix.LiveView
   def render(assigns) do
     ~H"""
-    <div class="lg:grid grid-cols-2">
-      <div class="hidden lg:block">
-        <div class="hidden lg:block  overflow-hidden">
-          <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
+    <div class="grid-cols-2 lg:grid">
+      <div class="hidden overflow-hidden lg:block">
+        <div class="overflow-hidden lg:block">
+          <img src="../images/cover_image.png" alt="" />
         </div>
       </div>
-      <div class="px-4 md:px-20">
-        <.header class="pt-3 lg:pt-9 w-full flex flex-col ">
-          <div class="flex items-center  w-full pt-12">
-            <div>
-              <img src="../images/logo.svg" alt="company logo" class="w-16" />
+      <div class="flex flex-col items-center">
+        <div class="w-10/12 h-full lg:w-9/12">
+          <.header class="flex flex-col w-full pt-3 lg:pt-9 ">
+            <div class="flex items-center w-full pt-12 lg:justify-center">
+              <div>
+                <img src="../images/logo.svg" alt="company logo" class="w-10" />
+              </div>
+              <p class="text-[#7C5DFA] px-4 font-bold text-4xl">Invoice</p>
             </div>
-            <p class="text-[#7C5DFA] px-4 font-bold text-4xl">Invoice</p>
-          </div>
-          <div class="pt-8">
-            <p class="text-xl  font-semi-bold  ">
-              Welcome let's create your profile
-              <span class="text-[#979797]  w-full block text-md  font-light text-start">
-                Just a few more steps...
-              </span>
-            </p>
-          </div>
-        </.header>
-        <h2 class="mt-10 font-bold">Add an Avatar</h2>
-        <div class="grid grid-cols-3">
-          <section phx-drop-target={@uploads.avatar.ref} class="flex items-center  h-40">
-            <div class="rounded-full h-32 w-32 border-2 border-dashed overflow-hidden border-[#979797]">
-              <img src={@current_user.avatar} alt="" class="" />
+            <div class="pt-8">
+              <p class="py-4 pr-32 text-xl font-semi-bold lg:font-medium">
+                Welcome let's create your profile
+                <span class="text-[#979797]  w-full block text-sm pt-3 font-light text-start">
+                  Just a few more steps...
+                </span>
+              </p>
             </div>
-            <%= for entry <- @uploads.avatar.entries do %>
-              <article class="upload-entry">
-                <figure>
-                  <.live_img_preview entry={entry} />
-                  <figcaption><%= entry.client_name %></figcaption>
-                </figure>
+          </.header>
+          <h2 class="mt-10 mb-6 font-bold">Add an Avatar</h2>
+          <div class="grid grid-cols-3">
+            <section phx-drop-target={@uploads.avatar.ref} class="flex items-center ">
+              <div class="rounded-full w-28 h-28 border-2 border-dashed overflow-hidden border-[#979797]">
+                <img src={@current_user.avatar} alt="" class="" />
+              </div>
+              <%= for entry <- @uploads.avatar.entries do %>
+                <article class="upload-entry">
+                  <figure>
+                    <.live_img_preview entry={entry} />
+                    <figcaption><%= entry.client_name %></figcaption>
+                  </figure>
+                  <%= for err <- upload_errors(@uploads.avatar, entry) do %>
+                    <p class="alert alert-danger"><%= error_to_string(err) %></p>
+                  <% end %>
+                </article>
+              <% end %>
+              <%= for err <- upload_errors(@uploads.avatar) do %>
+                <p class="alert alert-danger"><%= error_to_string(err) %></p>
+              <% end %>
+            </section>
 
-                <%= for err <- upload_errors(@uploads.avatar, entry) do %>
-                  <p class="alert alert-danger"><%= error_to_string(err) %></p>
-                <% end %>
-              </article>
-            <% end %>
-            <%= for err <- upload_errors(@uploads.avatar) do %>
-              <p class="alert alert-danger"><%= error_to_string(err) %></p>
-            <% end %>
-          </section>
-          <.link navigate={~p"/address"}> kennne</.link>
-          <form
-            id="upload-form"
-            phx-submit="save"
-            phx-change="validate"
-            class="flex flex-col text-white col-span-2"
-          >
-            <label class=" w-40 text-center my-auto  py-1 bg-[#7C5DFA] rounded-full font-semibold ml-4 hover:cursor-pointer">
-              <.live_file_input class="hidden" upload={@uploads.avatar} />
-              <span>Choose Image</span>
-            </label>
-            <button
-              type="submit"
-              navigate={~p"/address"}
-              class="bg-[#979797] w-32 translate-x-16 rounded-full py-1 "
+            <form
+              id="upload-form"
+              phx-submit="save"
+              phx-change="validate"
+              class="flex flex-col items-end col-span-2 text-white"
             >
-              Continue
-            </button>
-          </form>
+              <label class=" w-40 text-center my-auto  py-1 bg-[#7C5DFA] rounded-full font-semibold
+              lg:mx-20 hover:cursor-pointer">
+                <.live_file_input class="hidden" upload={@uploads.avatar} />
+                <span>Choose Image</span>
+              </label>
+              <button
+                type="submit"
+                navigate={~p"/address"}
+                class="bg-[#979797] w-32 rounded-full py-2 lg:mx-12 font-bold lg:translate-y-16"
+              >
+                <.link navigate={~p"/address"}>Continue</.link>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="pt-5 lg:hidden w-full">
+      <div class="w-full pt-5 lg:hidden">
         <img src="../images/footer_rectangle.png" alt="" class="w-full" />
       </div>
     </div>

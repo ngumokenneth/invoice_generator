@@ -1,31 +1,50 @@
-<main class="h-screen flex md:flex-col justify-center lg:grid grid-cols-2 font-league">
+<main class="flex justify-center h-screen grid-cols-2 md:flex-col lg:grid font-league">
   <div class="hidden lg:block">
-    <div class=" w-full hidden lg:block">
-      <img src="../images/cover_image.png" alt="" class="h-[100vh] w-full" />
+    <div class="lg:block">
+      <img src="../images/cover_image.png" alt="" />
     </div>
   </div>
   <div class="flex items-center justify-center w-full">
-    <div class="w-9/12 md:w-6/12 lg:w-8/12 flex flex-col items-center">
-      <div class="flex items-center w-full justify-center">
-        <div>
-          <img src="../images/logo.svg" alt="company logo" class="w-12" />
+    <div class="flex flex-col w-9/12 md:w-6/12 lg:w-8/12">
+      <div class="flex flex-col items-center ">
+        <div class="flex items-center lg:relative -top-20 ">
+          <img src="../images/logo.svg" alt="company logo" class="w-20" />
+          <p class="text-[#7C5DFA] px-4 font-bold text-5xl">Invoice</p>
         </div>
-        <p class="text-[#7C5DFA] px-4 font-bold text-4xl">Invoice</p>
+
+        <p class="py-4 text-2xl font-semibold">Sign In to Invoice</p>
       </div>
-      <p class="font-semibold py-4 lg:mt-12 text-center sm:text-2xl">Sign In to Invoice</p>
-      <div class="w-11/12 flex justify-center py-1 mt-3 rounded-full md:rounded-lg border-[#888EB0] border">
-        <img src="../images/google.svg" alt="Google logo" />
-        <button class="px-2">Sign in with Google</button>
+
+      <div class="w-full flex items-center justify-center py-1 mt-3 rounded-full md:rounded-lg bg-[#DFE3FA] border-2 border-gray-300 text-sm">
+        <img src="../images/google.svg" alt="Google logo" class="absolute -translate-x-20" />
+        <button class="w-full py-1">Sign in with Google</button>
       </div>
-      <div class="w-11/12 flex justify-center py-1 mt-8 rounded-full md:rounded-lg border-[#888EB0] border">
-        <img src="../images/email.svg" alt="Google logo" />
-        <button class=" px-2 ">
-          <%= live_patch("Sign in with Email", to: "/log_in") %>
+      <div class=" flex items-center justify-center py-1 mt-8 rounded-full md:rounded-lg bg-[#DFE3FA]  border-2 border-gray-300 text-sm">
+        <img src="../images/email.svg" alt="Google logo" class="absolute -translate-x-20" />
+
+        <button class="w-full p-1 ">
+          <.link navigate={~p"/log_in"}>Contiune with email</.link>
         </button>
       </div>
-      <div class="text-center mt-8 text-[#888EB0] ">
-        <p>By creating an account, you agree to <span class="block">Invoice company’s</span>.</p>
-        <p class="md:text-xs">Terms of Use and Privacy Policy.</p>
+      <div class="text-center mt-8 text-[#888EB0]">
+        <p class="lg:hidden">
+          By creating an account, you agree to <span class="block">Invoice company’s</span>.
+        </p>
+        <p class="hidden text-xs font-semibold lg:block">
+          By creating an account, you agree to Invoice company’s
+        </p>
+        <p class="text-xs">
+          <span class="font-bold">Terms of Use</span>
+          and <span class="font-bold">Privacy Policy</span>.
+        </p>
+        <p class="hidden py-4 lg:block">
+          Don't have an account?
+          <span class="text-[#7C5DFA]">
+            <.link navigate={~p"/register"}>
+              Sign up
+            </.link>
+          </span>
+        </p>
       </div>
     </div>
   </div>

@@ -5,7 +5,7 @@ defmodule InvoiceGeneratorWeb.UserConfirmationInstructionsLive do
 
   def render(assigns) do
     ~H"""
-    <div class=" flex flex-col justify-center items-center h-screen ">
+    <div class="flex flex-col items-center justify-center h-screen ">
       <div class=" w-6/12 flex flex-col justify-center bg-[#7C5DFA33]  px-8 py-4  rounded-lg">
         <.header class="text-center">
           Confirm your email address
@@ -34,7 +34,9 @@ defmodule InvoiceGeneratorWeb.UserConfirmationInstructionsLive do
     {:ok, assign(socket, form: to_form(%{}, as: "user"))}
   end
 
-  def handle_event("send_instructions", %{"user" => %{"email" => email}}, socket) do
+  def handle_event("send_instructions", _params, socket) do
+    email = socket.assigns.current_user.email
+
     if user = Accounts.get_user_by_email(email) do
       Accounts.deliver_user_confirmation_instructions(
         user,
